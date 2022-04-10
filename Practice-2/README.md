@@ -11,14 +11,14 @@ Problems to discuss:
 3. Open door when 3 keys collected?
 4. Heart Pickup?
 5. Enemy AI in Animator?
-3. Pause Menu 
-4. Procedural Generation - Basics 
-5. Break 11:00-11:15
-6. Lose & Win state 
+6. Pause Menu 
+7. Procedural Generation - Basics 
+8. Break 11:00-11:15
+9. Lose & Win state 
 * Lose when hearts go zero
 * Win after passing through door
-7. UI Animation. 
+10. UI Animation. 
 - Pulsating hearts
 - Shinging keys? 
-8. Level Generation
+11. Level Generation
 On the fly vs Whole level generated on start
