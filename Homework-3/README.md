@@ -19,14 +19,14 @@ Tasks:
  3. Controller support
  4. Do at least one of the following tasks (Bonus points for those who do both! (^_^) ):
    <br/>4.1. Procedurally generated levels - You can have one level as an introductory level and after that all levels will be generated. You can either try:
-   <br/>4.1.1. To use dynamic generation of platforms while you play
-   <br/>4.1.2. To generate in advance the whole level
-   <br/>4.1.3. something else?
+   <br/>* 4.1.1. To use dynamic generation of platforms while you play
+   <br/>* 4.1.2. To generate in advance the whole level
+   <br/>* 4.1.3. something else?
    <br/>4.2. Multi-player:
-   <br/>4.2.1. Sync movement and animations
-   <br/>4.2.2. Distinct players by showing players' names above their heads like "Player1", "Player2", etc.
-   <br/>4.2.3. Make a winning condition like who gets first to the top or the first to get a key
-   <br/>4.2.4. Show all players who is the winner
+   <br/>* 4.2.1. Sync movement and animations
+   <br/>* 4.2.2. Distinct players by showing players' names above their heads like "Player1", "Player2", etc.
+   <br/>* 4.2.3. Make a winning condition like who gets first to the top or the first to get a key
+   <br/>* 4.2.4. Show all players who is the winner
  5. Juice - Whatever you want, minimum 2 effects (Blood, Camera Shake etc) check Game Feel 
  6. A way to kill your enemies - By picking a powerup like in Pac-Man, by shooting projectiles at them, the choice is yours
  
