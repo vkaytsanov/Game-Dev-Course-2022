@@ -47,5 +47,7 @@ public class Game : MonoBehaviour
 
 		CameraFollowPlayer followPlayerComponent = Camera.main.GetComponent<CameraFollowPlayer>();
 		followPlayerComponent.SetPlayerToFollow(player);
+
+		Debug.LogFormat("{0} spawned", player.name);
 	}
 }
