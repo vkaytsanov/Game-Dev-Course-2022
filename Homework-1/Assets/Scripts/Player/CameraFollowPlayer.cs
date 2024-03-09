@@ -7,6 +7,9 @@ public class CameraFollowPlayer : MonoBehaviour
 	[SerializeField]
 	private Transform _playerTransform;
 
+	[SerializeField]
+	private Transform _backgroundTransform;
+
 	private Vector3 _offset;
 
 	public void SetPlayerToFollow(GameObject player)
@@ -30,6 +33,11 @@ public class CameraFollowPlayer : MonoBehaviour
 			transform.position = new Vector3(Mathf.Lerp(transform.position.x, _playerTransform.position.x, Time.deltaTime),
 			                                 Mathf.Lerp(transform.position.y, _playerTransform.position.y, Time.deltaTime),
 			                                 transform.position.z);
+
+			if (_backgroundTransform)
+			{
+				_backgroundTransform.position = new Vector3(transform.position.x, transform.position.y, _backgroundTransform.position.z);
+			}
 		}
 	}
 }

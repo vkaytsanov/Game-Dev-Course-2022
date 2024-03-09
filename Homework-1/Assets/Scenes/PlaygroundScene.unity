@@ -457,6 +457,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerTransform: {fileID: 0}
+  _backgroundTransform: {fileID: 384618510}
 --- !u!1001 &709400441
 PrefabInstance:
   m_ObjectHideFlags: 0
