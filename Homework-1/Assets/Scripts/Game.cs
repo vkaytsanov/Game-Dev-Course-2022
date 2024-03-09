@@ -1,37 +1,38 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Game : MonoBehaviour
+public class Game : Singleton<Game>
 {
-	public static Game Instance { get; private set; }
-
 	[SerializeField]
 	private GameObject _spawnPoint;
 
 	[SerializeField]
 	private GameObject _playerPrefab;
 
-	public void OnPlayerDead(GameObject player)
+	private Action<GameObject> _onPlayerCreatedAction;
+
+	Game()
 	{
-		Debug.LogFormat("{0} died", player.name);
-
-		// TODO: Maybe not best to destroy the whole object?
-		Destroy(player);
-
-		CreatePlayer();
 	}
 
-	private void Awake()
+	public void OnPlayerDead(GameObject player)
 	{
-		if (Instance != null && Instance != this)
+		PlayerAttributes playerAttributes = player.GetComponent<PlayerAttributes>();
+
+		int health = playerAttributes.GetHealth();
+		playerAttributes.SetAttribute(AttributeType.Health, health - 1);
+
+		if (health <= 1)
 		{
-			Destroy(this);
+			Debug.LogFormat("{0} died", player.name);
+			// Show game over screen
+			return;
 		}
-		else
-		{
-			Instance = this;
-		}
+
+		Debug.LogFormat("{0} respawned", player.name);
+		player.transform.position = _spawnPoint.transform.position;
 	}
 
 	// Start is called before the first frame update
@@ -40,14 +41,23 @@ public class Game : MonoBehaviour
 		CreatePlayer();
 	}
 
+	public void RegisterForPlayerCreated(Action<GameObject> func)
+	{
+		_onPlayerCreatedAction += func;
+	}
+
+	public void UnregisterForPlayerCreated(Action<GameObject> func)
+	{
+		_onPlayerCreatedAction -= func;
+	}
+
 	private void CreatePlayer()
 	{
 		// TODO: Multiplayer?
 		GameObject player = Instantiate(_playerPrefab, _spawnPoint.transform, true);
 
-		CameraFollowPlayer followPlayerComponent = Camera.main.GetComponent<CameraFollowPlayer>();
-		followPlayerComponent.SetPlayerToFollow(player);
-
 		Debug.LogFormat("{0} spawned", player.name);
+
+		_onPlayerCreatedAction?.Invoke(player);
 	}
 }

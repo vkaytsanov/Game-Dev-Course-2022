@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class CameraFollowPlayer : MonoBehaviour
 {
@@ -17,11 +18,14 @@ public class CameraFollowPlayer : MonoBehaviour
 		_playerTransform = player.transform;
 		_offset = Vector3.zero;
 	}
-
-	// Start is called before the first frame update
-	void Start()
+	void OnEnable()
 	{
-		
+		Game.Instance.RegisterForPlayerCreated(SetPlayerToFollow);
+	}
+
+	void OnDisable()
+	{
+		Game.Instance.UnregisterForPlayerCreated(SetPlayerToFollow);
 	}
 
 	// Update is called once per frame
