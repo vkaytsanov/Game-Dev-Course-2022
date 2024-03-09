@@ -920,6 +920,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420033}
+  - component: {fileID: 519420034}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1007,6 +1008,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerTransform: {fileID: 0}
   _backgroundTransform: {fileID: 384618510}
+--- !u!114 &519420034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5ce06c1bfe647a4cae12f6af29b51fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _vignetteMaterial: {fileID: 2100000, guid: ba8f0d8dff76adf4c9406b534636c45a, type: 2}
+  _vignetteRadius: 0.71
+  _vignetteSmoothEdge: 1
+  _vignetteTintColor: {r: 0.8301887, g: 0.41901034, b: 0.41901034, a: 1}
 --- !u!1 &536971370
 GameObject:
   m_ObjectHideFlags: 0
