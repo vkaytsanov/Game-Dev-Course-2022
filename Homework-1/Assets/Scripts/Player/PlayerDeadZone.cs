@@ -11,6 +11,12 @@ public class PlayerDeadZone : MonoBehaviour
 			return;
 		}
 
-		Game.Instance.OnPlayerDead(collision.gameObject);
+		PlayerController pc = collision.gameObject.GetComponent<PlayerController>();
+		int currentHealth = pc.TakeDamage(1);
+
+		if (currentHealth > 0)
+		{
+			Game.Instance.RespawnPlayer(collision.gameObject);
+		}
 	}
 }

@@ -26,6 +26,18 @@ public class PlayerController : MonoBehaviour
 	private float _desiredSpeed = 0.0f;
 	private bool _desiresToJump = false;
 
+	private event Action<GameObject> _onPlayerDeadAction;
+
+	public void RegisterForPlayerDead(Action<GameObject> func)
+	{
+		_onPlayerDeadAction += func;
+	}
+
+	public void UnregisterForPlayerDead(Action<GameObject> func)
+	{
+		_onPlayerDeadAction -= func;
+	}
+
 	public bool IsInState(PlayerState state)
 	{
 		return _state == state;
@@ -59,11 +71,30 @@ public class PlayerController : MonoBehaviour
 		case PlayerState.Dead:
 		{
 			_animator.SetBool("IsAlive", false);
+			_onPlayerDeadAction?.Invoke(gameObject);
 			break;
 		}
 		}
 
 		_state = newState;
+	}
+
+	public int TakeDamage(int amount)
+	{
+		PlayerAttributes playerAttributes = GetComponent<PlayerAttributes>();
+
+		int health = playerAttributes.GetHealth() - amount;
+		playerAttributes.SetAttribute(AttributeType.Health, health);
+
+		if (health <= 0)
+		{
+			ChangePlayerState(PlayerState.Dead);
+
+			_rigidbody.velocity = Vector2.zero;
+			_rigidbody.AddForce(Vector2.up * 50);
+		}
+
+		return health;
 	}
 
 	// Start is called before the first frame update
@@ -120,11 +151,14 @@ public class PlayerController : MonoBehaviour
 
 	private void UpdateMovement()
 	{
-		_rigidbody.velocity = new Vector2(_desiredSpeed, _rigidbody.velocity.y);
-
-		if (_rigidbody.velocity.x != 0.0f)
+		if (_state != PlayerState.Dead)
 		{
-			_spriteRenderer.flipX = Mathf.Sign(_rigidbody.velocity.x) < 0.0f;
+			_rigidbody.velocity = new Vector2(_desiredSpeed, _rigidbody.velocity.y);
+
+			if (_rigidbody.velocity.x != 0.0f)
+			{
+				_spriteRenderer.flipX = Mathf.Sign(_rigidbody.velocity.x) < 0.0f;
+			}
 		}
 	}
 

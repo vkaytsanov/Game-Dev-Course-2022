@@ -19,26 +19,11 @@ public class Game : Singleton<Game>
 
 	public void OnPlayerDead(GameObject player)
 	{
-		PlayerAttributes playerAttributes = player.GetComponent<PlayerAttributes>();
+		Debug.LogFormat("{0} died", player.name);
+	}
 
-		int health = playerAttributes.GetHealth();
-		playerAttributes.SetAttribute(AttributeType.Health, health - 1);
-
-		if (health <= 1)
-		{
-			Debug.LogFormat("{0} died", player.name);
-
-			PlayerController pc = player.GetComponent<PlayerController>();
-			pc.ChangePlayerState(PlayerState.Dead);
-
-			Rigidbody2D rb = pc.GetComponent<Rigidbody2D>();
-			rb.velocity = Vector2.zero;
-			rb.AddForce(Vector2.up * 50);
-
-			// Show game over screen
-			return;
-		}
-
+	public void RespawnPlayer(GameObject player)
+	{
 		Debug.LogFormat("{0} respawned", player.name);
 		player.transform.position = _spawnPoint.transform.position;
 	}
@@ -62,7 +47,10 @@ public class Game : Singleton<Game>
 	private void CreatePlayer()
 	{
 		// TODO: Multiplayer?
-		GameObject player = Instantiate(_playerPrefab, _spawnPoint.transform, true);
+		GameObject player = Instantiate(_playerPrefab);
+		player.transform.position = _spawnPoint.transform.position;
+
+		player.GetComponent<PlayerController>().RegisterForPlayerDead(OnPlayerDead);
 
 		Debug.LogFormat("{0} spawned", player.name);
 
