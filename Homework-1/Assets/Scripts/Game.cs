@@ -27,6 +27,14 @@ public class Game : Singleton<Game>
 		if (health <= 1)
 		{
 			Debug.LogFormat("{0} died", player.name);
+
+			PlayerController pc = player.GetComponent<PlayerController>();
+			pc.ChangePlayerState(PlayerState.Dead);
+
+			Rigidbody2D rb = pc.GetComponent<Rigidbody2D>();
+			rb.velocity = Vector2.zero;
+			rb.AddForce(Vector2.up * 50);
+
 			// Show game over screen
 			return;
 		}
