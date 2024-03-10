@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.UIElements;
 using UnityEngine;
 
 public enum PlayerState
@@ -29,6 +26,11 @@ public class PlayerController : MonoBehaviour
 	private float _desiredSpeed = 0.0f;
 	private bool _desiresToJump = false;
 
+	public bool IsInState(PlayerState state)
+	{
+		return _state == state;
+	}
+
 	public void ChangePlayerState(PlayerState newState)
 	{
 		if (_state == newState)
@@ -42,6 +44,7 @@ public class PlayerController : MonoBehaviour
 		{
 		case PlayerState.Ground:
 		{
+			_desiresToJump = false;
 			_animator.SetBool("IsJumping", false);
 			break;
 		}
@@ -84,7 +87,11 @@ public class PlayerController : MonoBehaviour
 	void Update()
 	{
 		_desiredSpeed = Input.GetAxis("Horizontal") * _speedModifier;
-		_desiresToJump = Input.GetButtonDown("Jump");
+
+		if (!_desiresToJump)
+		{
+			_desiresToJump = Input.GetButtonDown("Jump");
+		}
 	}
 
 	private void FixedUpdate()
