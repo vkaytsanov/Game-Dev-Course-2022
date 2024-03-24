@@ -35,4 +35,18 @@ public class GameTags : MonoBehaviour
 	{
 		return IsPlatform(collider.gameObject);
 	}
+
+	public static bool IsEnemy(GameObject obj)
+	{
+		return obj.CompareTag(EnemyTag);
+	}
+
+	public static bool IsEnemy(Collider2D collider)
+	{
+		return IsEnemy(collider.gameObject);
+	}
+	public static bool IsEnemy(Collision2D collider)
+	{
+		return IsEnemy(collider.gameObject);
+	}
 }

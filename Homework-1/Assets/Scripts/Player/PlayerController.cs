@@ -16,6 +16,14 @@ public class PlayerController : MonoBehaviour
 	[SerializeField]
 	private float _jumpForce = 10.0f;
 
+	[SerializeField]
+	private float _attackCooldownSeconds = 2.0f;
+
+	private float _nextAttackAvailableTime;
+
+	[SerializeField]
+	private Projectile _projectilePrefab;
+
 	private SpriteRenderer _spriteRenderer;
 
 	private Rigidbody2D _rigidbody;
@@ -25,6 +33,7 @@ public class PlayerController : MonoBehaviour
 	private PlayerState _state;
 	private float _desiredSpeed = 0.0f;
 	private bool _desiresToJump = false;
+	private bool _desiresToAttack = false;
 
 	private event Action<GameObject> _onPlayerDeadAction;
 
@@ -138,6 +147,8 @@ public class PlayerController : MonoBehaviour
 		{
 			_state = PlayerState.Ground;
 		}
+
+		_nextAttackAvailableTime = Time.time;
 	}
 
 	// Update is called once per frame
@@ -149,6 +160,11 @@ public class PlayerController : MonoBehaviour
 		{
 			_desiresToJump = Input.GetButtonDown("Jump");
 		}
+
+		if (!_desiresToAttack)
+		{
+			_desiresToAttack = Input.GetButtonDown("Fire1");
+		}
 	}
 
 	private void FixedUpdate()
@@ -158,7 +174,11 @@ public class PlayerController : MonoBehaviour
 
 	private void UpdateCurrentState()
 	{
-		UpdateMovement();
+		if (_state != PlayerState.Dead)
+		{
+			UpdateMovement();
+			UpdateAttacking();
+		}
 
 		switch (_state)
 		{
@@ -177,15 +197,38 @@ public class PlayerController : MonoBehaviour
 
 	private void UpdateMovement()
 	{
-		if (_state != PlayerState.Dead)
-		{
-			_rigidbody.velocity = new Vector2(_desiredSpeed, _rigidbody.velocity.y);
+		_rigidbody.velocity = new Vector2(_desiredSpeed, _rigidbody.velocity.y);
 
-			if (_rigidbody.velocity.x != 0.0f)
-			{
-				_spriteRenderer.flipX = Mathf.Sign(_rigidbody.velocity.x) < 0.0f;
-			}
+		if (_rigidbody.velocity.x != 0.0f)
+		{
+			_spriteRenderer.flipX = Mathf.Sign(_rigidbody.velocity.x) < 0.0f;
 		}
+	}
+
+	private void UpdateAttacking()
+	{
+		if (!_desiresToAttack)
+		{
+			return;
+		}
+
+		_desiresToAttack = false;
+
+		if (_nextAttackAvailableTime > Time.time)
+		{
+			return;
+		}
+
+		Debug.Log("Player attacks");
+
+		_nextAttackAvailableTime = Time.time + _attackCooldownSeconds;
+
+
+		float spawnOffsetX = _spriteRenderer.flipX ? -_spriteRenderer.bounds.size.x : _spriteRenderer.bounds.size.x;
+
+		Projectile projectile = Instantiate(_projectilePrefab);
+		projectile.transform.position = transform.position + new Vector3(spawnOffsetX, 0, 0);
+		projectile.SetDirection(_spriteRenderer.flipX ? Vector3.left : Vector3.right);
 	}
 
 	private void UpdateOnGround()

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,15 @@ public class PlayerDeadZone : MonoBehaviour
 		{
 			OnTriggerWithPlatform(collision);
 		}
+		else if (GameTags.IsEnemy(collision))
+		{
+			OnTriggerWithEnemy(collision);
+		}
+	}
+
+	private void OnTriggerWithEnemy(Collider2D collision)
+	{
+		Destroy(collision.gameObject);
 	}
 
 	private void OnTriggerWithPlayer(Collider2D collision)
