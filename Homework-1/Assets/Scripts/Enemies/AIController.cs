@@ -70,26 +70,6 @@ public class AIController : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		//if (_attackedTransform)
-		//{
-		//	// Multiplayer?
-		//	Vector2 forwardVector = _spriteRenderer.flipX ? Vector2.left : Vector2.right;
-		//	Vector2 toTarget = _attackedTransform.position - transform.position;
-		//	toTarget.Normalize();
-
-		//	float dotToTarget = Vector2.Dot(forwardVector, toTarget);
-		//	Debug.LogFormat("{0}, {1}, {2}, {3}", forwardVector, toTarget, dotToTarget, Mathf.Acos(_sightAngle));
-		//	if (dotToTarget > 0)
-		//	{
-		//		// TODO: Maybe cache the cosine sightAngle ?
-		//		if (dotToTarget < Mathf.Acos(_sightAngle))
-		//		{
-		//			ChangeState(AIState.Attack);
-		//			AdvanceNextDecisionTime(100);
-		//		}
-		//	}
-		//}
-
 		if (Time.time > _nextDecisionTime)
 		{
 			ChangeState(GenerateNextState());
@@ -214,10 +194,10 @@ public class AIController : MonoBehaviour
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
 		GameObject collider = collision.gameObject;
-		if (collider.CompareTag("Player"))
+		if (GameTags.IsPlayer(collider))
 		{
 			PlayerController pc = collider.GetComponent<PlayerController>();
-			pc.TakeDamage(1);
+			pc.TakeDamage(1, collider.transform.position - transform.position);
 		}
 		else
 		{
@@ -266,7 +246,7 @@ public class AIController : MonoBehaviour
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
 		GameObject collider = collision.gameObject;
-		if (collider.CompareTag("Player"))
+		if (GameTags.IsPlayer(collider))
 		{
 			_attackedPlayer = collider.gameObject.GetComponent<PlayerController>();
 			ChangeState(AIState.Attack);

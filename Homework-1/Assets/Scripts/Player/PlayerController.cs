@@ -71,6 +71,7 @@ public class PlayerController : MonoBehaviour
 		case PlayerState.Dead:
 		{
 			_animator.SetBool("IsAlive", false);
+			_animator.SetTrigger("Hurt");
 			_onPlayerDeadAction?.Invoke(gameObject);
 			break;
 		}
@@ -89,12 +90,37 @@ public class PlayerController : MonoBehaviour
 		if (health <= 0)
 		{
 			ChangePlayerState(PlayerState.Dead);
-
-			_rigidbody.velocity = Vector2.zero;
-			_rigidbody.AddForce(Vector2.up * 50);
+		}
+		else
+		{
+			_animator.SetTrigger("Hurt");
 		}
 
 		return health;
+	}
+
+	public int TakeDamage(int amount, Vector3 direction)
+	{
+		ApplyPushBackEffect(direction);
+		return TakeDamage(amount);
+	}
+
+	private void ApplyPushBackEffect(Vector3 direction)
+	{
+		Vector3 force;
+		if (Vector3.Dot(direction, Vector3.left) > 0)
+		{
+			force = Vector3.LerpUnclamped(Vector3.left, Vector3.up, 0.2f);
+		}
+		else
+		{
+			force = Vector3.LerpUnclamped(Vector3.right, Vector3.up, 0.2f);
+		}
+
+		_rigidbody.velocity = Vector2.zero;
+
+		float forceMagnitute = _state == PlayerState.Jumping ? 3.0f : 15.0f;
+		_rigidbody.AddForce(force * forceMagnitute, ForceMode2D.Impulse);
 	}
 
 	// Start is called before the first frame update

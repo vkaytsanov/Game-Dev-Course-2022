@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bad632f5f7de73041acdbf30e4f30a3f, type: 3}
+  m_Name: EasyLevelSettings
+  m_EditorClassIdentifier: 
+  autoUpdate: 0
+  _platforms:
+  - _prefab: {fileID: 3519503748103444092, guid: e039b37c830b1ef4cbc05e86ebf0fb76,
+      type: 3}
+    _spawnRange: 2
+  - _prefab: {fileID: 5294180201852184893, guid: 4cc7bb8e34f30884bb15e4730047dd6f,
+      type: 3}
+    _spawnRange: 2
+  - _prefab: {fileID: 5294180201852184893, guid: 5da10120471ce304ea6bb2cb996a324c,
+      type: 3}
+    _spawnRange: 2
+  - _prefab: {fileID: 6101588307560352671, guid: f274e4e786db4bd4a82dd283b3ca35c4,
+      type: 3}
+    _spawnRange: 1
+  _key:
+    _prefab: {fileID: 3013671592320150356, guid: 8a913ded46166484c93f710db065abb1,
+      type: 3}
+    _spawnRange: 3
+  _heart:
+    _prefab: {fileID: 5268178482093280864, guid: b8b219c3bcf80c64a918e7a33442c1bf,
+      type: 3}
+    _spawnRange: 1
+  _enemies:
+  - _prefab: {fileID: 8977698191669417137, guid: 6f0b3cfad5cd42741861935556013102,
+      type: 3}
+    _spawnChance: 0.268
+  _springPowerup:
+    _prefab: {fileID: 9185074268915645724, guid: 7387fabeadda33a4dba6a180d4587b00,
+      type: 3}
+    _spawnChance: 0.132
+  _winCondition: {fileID: 9042468121752194696, guid: 20c49ff6f06e9c84f92f4f0450fb9062,
+    type: 3}

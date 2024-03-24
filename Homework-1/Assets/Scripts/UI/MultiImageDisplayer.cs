@@ -25,7 +25,7 @@ public class MultiImageDisplayer : MonoBehaviour
 			_playerAttributes.UnregisterForEvent(_type, SetActiveCount);
 		}
 
-		Game.Instance.UnregisterForPlayerCreated(SetPlayer);
+		//Game.Instance.UnregisterForPlayerCreated(SetPlayer);
 	}
 
 	private void SetPlayer(GameObject player)

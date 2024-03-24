@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class Game : Singleton<Game>
 {
@@ -11,15 +12,21 @@ public class Game : Singleton<Game>
 	[SerializeField]
 	private GameObject _playerPrefab;
 
+	[SerializeField]
+	private Settings.LevelSettings _levelSettings;
+
 	private Action<GameObject> _onPlayerCreatedAction;
 
-	Game()
+	public void OnPlayerWon()
 	{
+		GameUIManager.Instance.OnLevelWon();
 	}
 
 	public void OnPlayerDead(GameObject player)
 	{
 		Debug.LogFormat("{0} died", player.name);
+
+		GameUIManager.Instance.OnLevelLost();
 	}
 
 	public void RespawnPlayer(GameObject player)
@@ -42,6 +49,14 @@ public class Game : Singleton<Game>
 	public void UnregisterForPlayerCreated(Action<GameObject> func)
 	{
 		_onPlayerCreatedAction -= func;
+	}
+
+	public void CreateLevel()
+	{
+		Assert.IsNotNull(_levelSettings);
+
+		WorldGenerator worldGenerator = new WorldGenerator(_levelSettings, _spawnPoint.transform.position);
+		worldGenerator.Generate();
 	}
 
 	private void CreatePlayer()

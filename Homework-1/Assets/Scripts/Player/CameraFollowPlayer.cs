@@ -9,7 +9,7 @@ public class CameraFollowPlayer : MonoBehaviour
 	private Transform _playerTransform;
 
 	[SerializeField]
-	private Transform _backgroundTransform;
+	private Transform[] _backgrounds;
 
 	private Vector3 _offset;
 
@@ -25,7 +25,7 @@ public class CameraFollowPlayer : MonoBehaviour
 
 	void OnDisable()
 	{
-		Game.Instance.UnregisterForPlayerCreated(SetPlayerToFollow);
+		//Game.Instance.UnregisterForPlayerCreated(SetPlayerToFollow);
 	}
 
 	// Update is called once per frame
@@ -33,14 +33,19 @@ public class CameraFollowPlayer : MonoBehaviour
 	{
 		if (_playerTransform)
 		{
-			float cameraDepth = transform.position.z;
+			Vector3 prevPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
 			transform.position = new Vector3(Mathf.Lerp(transform.position.x, _playerTransform.position.x, Time.deltaTime),
 			                                 Mathf.Lerp(transform.position.y, _playerTransform.position.y, Time.deltaTime),
 			                                 transform.position.z);
 
-			if (_backgroundTransform)
+			Vector3 deltaPosition = transform.position - prevPosition;
+
+			for (int i = 0; i < _backgrounds.Length; i++)
 			{
-				_backgroundTransform.position = new Vector3(transform.position.x, transform.position.y, _backgroundTransform.position.z);
+				Vector3 newBackgroundPosition = _backgrounds[i].position + deltaPosition;
+				_backgrounds[i].position = new Vector3(newBackgroundPosition.x,
+				                                       newBackgroundPosition.y,
+				                                       _backgrounds[i].position.z);
 			}
 		}
 	}

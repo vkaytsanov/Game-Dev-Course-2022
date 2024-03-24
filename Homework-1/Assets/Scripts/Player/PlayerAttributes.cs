@@ -51,7 +51,15 @@ public class PlayerAttributes : MonoBehaviour
 
 	public void AddAttribute(AttributeType type, int value = 1)
 	{
-		_attributes.Add(type, value);
+		if (_attributes.ContainsKey(type))
+		{
+			_attributes[type] += value;
+		}
+		else
+		{
+			_attributes.Add(type, value);
+		}
+		
 
 		if (_attributeChangedEvent.ContainsKey(type))
 		{
@@ -67,5 +75,11 @@ public class PlayerAttributes : MonoBehaviour
 	public int GetKeys() 
 	{
 		return _attributes.GetValueOrDefault(AttributeType.Keys, 0);
+	}
+
+	private void Start()
+	{
+		SetAttribute(AttributeType.Health, 3);
+		SetAttribute(AttributeType.Keys, 0);
 	}
 }

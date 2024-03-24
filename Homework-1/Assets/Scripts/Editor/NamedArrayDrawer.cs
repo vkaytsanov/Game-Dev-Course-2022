@@ -12,12 +12,18 @@ namespace Editor
 			try
 			{
 				int pos = int.Parse(property.propertyPath.Split('[', ']')[1]);
-				EditorGUI.PropertyField(rect, property, new GUIContent(((NamedArrayAttribute)attribute).names[pos]));
+				EditorGUI.PropertyField(rect, property, new GUIContent(((NamedArrayAttribute)attribute).names[pos]), true);
+
 			}
 			catch
 			{
 				EditorGUI.PropertyField(rect, property, label);
 			}
+		}
+
+		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+		{
+			return EditorGUI.GetPropertyHeight(property, label, true);
 		}
 	}
 

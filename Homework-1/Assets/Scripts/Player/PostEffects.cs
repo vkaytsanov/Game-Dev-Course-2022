@@ -35,7 +35,7 @@ public class PostEffects : MonoBehaviour
 		{
 			_attributes.UnregisterForEvent(AttributeType.Health, OnPlayerHealthChanged);
 		}
-		Game.Instance.UnregisterForPlayerCreated(OnNewPlayer);
+		//Game.Instance.UnregisterForPlayerCreated(OnNewPlayer);
 	}
 
 	private void OnNewPlayer(GameObject gameObject)
